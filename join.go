@@ -19,3 +19,23 @@ func Join[J, K, R any](
 
 	return r
 }
+
+func JoinByKey[K comparable, LE, RE, R any](
+	left []LE,
+	right []RE,
+	lk func(item LE) K,
+	rk func(item RE) K,
+	mapper func(LE, RE) R,
+) []R {
+	var r = make([]R, 0, len(left))
+
+	rm := KeyBy(right, rk)
+
+	for _, j := range left {
+		k := lk(j)
+		re := rm[k]
+		r = append(r, mapper(j, re))
+	}
+
+	return r
+}
