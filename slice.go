@@ -340,6 +340,17 @@ func KeyBy[K comparable, V any](collection []V, iteratee func(item V) K) map[K]V
 	return result
 }
 
+func KeyValueBy[K comparable, E, V any](collection []E, iteratee func(item E) (K, V)) map[K]V {
+	result := make(map[K]V, len(collection))
+
+	for _, v := range collection {
+		k, r := iteratee(v)
+		result[k] = r
+	}
+
+	return result
+}
+
 // Associate returns a map containing key-value pairs provided by transform function applied to elements of the given slice.
 // If any of two pairs would have the same key the last one gets added to the map.
 // The order of keys in returned map is not specified and is not guaranteed to be the same from the original array.

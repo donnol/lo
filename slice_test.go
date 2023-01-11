@@ -351,6 +351,18 @@ func TestKeyBy(t *testing.T) {
 	is.Equal(result1, map[int]string{1: "a", 2: "aa", 3: "aaa"})
 }
 
+func TestKeyValueBy(t *testing.T) {
+	t.Parallel()
+
+	is := assert.New(t)
+
+	result1 := KeyValueBy([]string{"a", "aa", "aaa"}, func(str string) (string, int) {
+		return str, len(str)
+	})
+
+	is.Equal(result1, map[string]int{"a": 1, "aa": 2, "aaa": 3})
+}
+
 func TestAssociate(t *testing.T) {
 	t.Parallel()
 
@@ -388,7 +400,7 @@ func TestAssociate(t *testing.T) {
 
 func TestSliceToMap(t *testing.T) {
 	t.Parallel()
-	
+
 	type foo struct {
 		baz string
 		bar int
@@ -626,7 +638,7 @@ func TestSlice(t *testing.T) {
 	out16 := Slice(in, -10, 1)
 	out17 := Slice(in, -1, 3)
 	out18 := Slice(in, -10, 7)
-	
+
 	is.Equal([]int{}, out1)
 	is.Equal([]int{0}, out2)
 	is.Equal([]int{0, 1, 2, 3, 4}, out3)
